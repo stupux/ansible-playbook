@@ -162,6 +162,54 @@
         <str name="facet.query">year:[1990 TO 1999]</str>
         <str name="facet.query">year:[2000 TO 2009]</str>
         <str name="facet.query">year:[2010 TO *]</str>
+     </lst>
+  </requestHandler>
+
+  <requestHandler name="/termvectors" class="solr.SearchHandler">
+     <lst name="defaults">
+        <str name="echoParams">explicit</str>
+        <!-- We return all of the original fields, not the _search versions -->
+        <!-- NOTE: This parameter should match the value of DEFAULT_FIELDS in
+             lib/solr/connection.rb -->
+        <str name="fl">uid,doi,license,license_url,data_source,authors,title,journal,year,volume,number,pages,fulltext_url</str>
+        <str name="defType">dismax</str>
+        <str name="qf">
+           title_stem^8.0 fulltext_stem^5.0 journal_stem
+        </str>
+        <str name="pf">
+           title_stem^8.0 fulltext_stem^5.0 journal_stem
+        </str>
+        <str name="q.alt">*:*</str>
+
+        <!-- Enable faceting for authors and journals -->
+        <bool name="facet">true</bool>
+        <int name="facet.limit">10</int>
+        <str name="facet.field">authors_facet</str>
+        <str name="facet.field">journal_facet</str>
+
+        <str name="facet.query">year:[* TO 1799]</str>
+        <str name="facet.query">year:[1800 TO 1809]</str>
+        <str name="facet.query">year:[1810 TO 1819]</str>
+        <str name="facet.query">year:[1820 TO 1829]</str>
+        <str name="facet.query">year:[1830 TO 1839]</str>
+        <str name="facet.query">year:[1840 TO 1849]</str>
+        <str name="facet.query">year:[1850 TO 1859]</str>
+        <str name="facet.query">year:[1860 TO 1869]</str>
+        <str name="facet.query">year:[1870 TO 1879]</str>
+        <str name="facet.query">year:[1880 TO 1889]</str>
+        <str name="facet.query">year:[1890 TO 1899]</str>
+        <str name="facet.query">year:[1900 TO 1909]</str>
+        <str name="facet.query">year:[1910 TO 1919]</str>
+        <str name="facet.query">year:[1920 TO 1929]</str>
+        <str name="facet.query">year:[1930 TO 1939]</str>
+        <str name="facet.query">year:[1940 TO 1949]</str>
+        <str name="facet.query">year:[1950 TO 1959]</str>
+        <str name="facet.query">year:[1960 TO 1969]</str>
+        <str name="facet.query">year:[1970 TO 1979]</str>
+        <str name="facet.query">year:[1980 TO 1989]</str>
+        <str name="facet.query">year:[1990 TO 1999]</str>
+        <str name="facet.query">year:[2000 TO 2009]</str>
+        <str name="facet.query">year:[2010 TO *]</str>
 
         <!-- Enable term vectors, against the full text, but don't switch them
              on by default. -->
