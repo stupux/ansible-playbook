@@ -2,3 +2,7 @@
 - include: yum.yml
 - include: ntp.yml
 - include: java.yml
+
+- name: Create directory for download cache
+  file: path=/opt/downloads state=directory
+  tags: main
