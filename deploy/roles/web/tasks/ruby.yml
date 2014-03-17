@@ -25,5 +25,5 @@
   tags: ruby
 
 - name: Tell Bundler where the PostgreSQL installation is
-  command: bundle config build.pg --with-pg-config=/usr/pgsql-9.2/bin/pg_config
+  command: bundle config build.pg --with-pg-config=/usr/pgsql-9.3/bin/pg_config
   tags: ruby
