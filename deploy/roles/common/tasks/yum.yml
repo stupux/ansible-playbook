@@ -13,11 +13,11 @@
   tags: yum
 
 - name: Copy the PostgreSQL repository definition
-  copy: src=pgdg-92-redhat.repo dest=/etc/yum.repos.d/pgdg-92-redhat.repo
+  copy: src=pgdg-93-redhat.repo dest=/etc/yum.repos.d/pgdg-93-redhat.repo
   tags: yum
 
 - name: Copy the PostgreSQL GPG key
-  copy: src=RPM-GPG-KEY-PGDG-92 dest=/etc/pki/rpm-gpg
+  copy: src=RPM-GPG-KEY-PGDG-93 dest=/etc/pki/rpm-gpg
   tags: yum
 
 - name: Enable the yum cache
