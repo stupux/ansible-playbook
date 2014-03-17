@@ -8,6 +8,10 @@
   copy: src=RPM-GPG-KEY-EPEL-6 dest=/etc/pki/rpm-gpg
   tags: yum
 
+- name: Install SELinux Python bindings for Ansible
+  yum: name=libselinux-python state=present
+  tags: yum
+
 - name: Copy the PostgreSQL repository definition
   copy: src=pgdg-92-redhat.repo dest=/etc/yum.repos.d/pgdg-92-redhat.repo
   tags: yum
