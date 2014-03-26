@@ -211,13 +211,12 @@
         <str name="facet.query">year:[2000 TO 2009]</str>
         <str name="facet.query">year:[2010 TO *]</str>
 
-        <!-- Enable term vectors, against the full text, but don't switch them
-             on by default. -->
-        <bool name="tv">false</bool>
+        <!-- Enable term vectors, against the full text -->
+        <bool name="tv">true</bool>
         <str name="tv.fl">fulltext,fulltext_ns</str>
         <bool name="tv.tf">true</bool>
         <bool name="tv.df">true</bool>
-        <bool name="tv.tf_idf">true</bool>
+        <bool name="tv.tf_idf">false</bool>
         <bool name="tv.positions">true</bool>
         <bool name="tv.offsets">false</bool>
      </lst>
