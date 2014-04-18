@@ -68,6 +68,10 @@
   copy: src=tomcat-initscript.sh dest=/etc/init.d/tomcat mode=0755
   tags: tomcat
 
+- name: Enable Tomcat log rotation
+  copy: src=tomcat-logrotate dest=/etc/logrotate.d/tomcat
+  tags: tomcat
+
 - name: Start Tomcat
   # For some reason, state=started will often report that the service is
   # already running, even though it hasn't been started yet (since it was

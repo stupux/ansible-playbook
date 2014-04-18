@@ -34,7 +34,7 @@
   tags: solr
 
 - name: Copy Solr logging properties to Tomcat lib directory
-  shell: cp /opt/solr/rletters/resources/log4j.properties /opt/tomcat/lib/ creates=/opt/tomcat/lib/log4j.properties
+  copy: src=solr-log4j.properties dest=/opt/tomcat/lib/log4j.properties
   tags: solr
 
 - name: Set Solr server configuration

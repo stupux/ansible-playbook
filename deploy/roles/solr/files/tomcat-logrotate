@@ -1,0 +1,19 @@
+/opt/tomcat/logs/catalina.out {
+    weekly
+    rotate 10
+    copytruncate
+    delaycompress
+    compress
+    notifempty
+    missingok
+}
+
+/opt/tomcat/logs/access_log {
+    weekly
+    rotate 10
+    copytruncate
+    delaycompress
+    compress
+    notifempty
+    missingok
+}
