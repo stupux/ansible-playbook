@@ -95,3 +95,7 @@
   command: chdir=/opt/rletters/root bundle exec rake setting:set[solr_server_url,{{ hostvars[groups['solrserver'][0]]['ansible_eth0']['ipv4']['address'] }}] RAILS_ENV=production
   when: inventory_hostname != groups['solrserver'][0]
   tags: rletters
+
+- name: Enable Rails log rotation
+  copy: src=rletters-logrotate dest=/etc/logrotate.d/rletters
+  tags: rletters
