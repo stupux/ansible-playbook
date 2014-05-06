@@ -27,7 +27,7 @@
 
 - name: Copy the Nginx repository definition (RHEL)
   copy: src=nginx-rhel.repo dest=/etc/yum.repos.d/nginx.repo
-  when: ansible_distribution == 'Red Hat Enterprise Linux'
+  when: ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'RedHat'
   tags: yum
 
 - name: Enable the yum cache
