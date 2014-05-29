@@ -12,7 +12,11 @@
 
 
 - name: Disable secure path in sudo so that we can get local paths
-  lineinfile: dest=/etc/sudoers regexp="^(Defaults\s+secure_path\s+=\s+).*" backrefs=yes line='\1/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin'
+  lineinfile: dest=/etc/sudoers regexp="^(Defaults\s+secure_path\s+=\s+.*)" backrefs=yes line='#\1'
+  tags: ruby
+
+- name: Preserve PATH variable in sudo so that we can get local paths
+  lineinfile: dest=/etc/sudoers state=present regexp="^Defaults\s+env_keep.+PATH" line="Defaults env_keep += \"PATH\""
   tags: ruby
 
 - name: Install profile snippet to put Ruby in the path

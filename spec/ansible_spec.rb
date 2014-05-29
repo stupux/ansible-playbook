@@ -31,7 +31,7 @@ describe 'Ansible provisioning' do
   describe 'db role' do
     describe 'main.yml' do
       it 'successfully installs postgresql' do
-        expect(vagrant_ssh('which psql')).to eq("/usr/bin/psql\n")
+        expect(vagrant_ssh('which psql')).to start_with("/usr/bin/psql")
       end
 
       it 'creates the database password file' do
@@ -67,7 +67,7 @@ describe 'Ansible provisioning' do
   describe 'solr role' do
     describe 'tomcat.yml' do
       it 'installs the Tomcat native library' do
-        expect(vagrant_ssh('ls /usr/lib64/libtcnative-1.so')).to eq("/usr/lib64/libtcnative-1.so\n")
+        expect(vagrant_ssh('ls /usr/lib64/libtcnative-1.so')).to start_with("/usr/lib64/libtcnative-1.so")
       end
 
       it 'actually uses the Tomcat native library' do
@@ -121,15 +121,15 @@ describe 'Ansible provisioning' do
   describe 'web role' do
     describe 'ruby.yml' do
       it 'successfully installs ruby' do
-        expect(vagrant_ssh('which ruby')).to eq("/usr/local/bin/ruby\n")
+        expect(vagrant_ssh('which ruby')).to start_with("/usr/local/bin/ruby")
       end
 
       it 'successfully installs gem' do
-        expect(vagrant_ssh('which gem')).to eq("/usr/local/bin/gem\n")
+        expect(vagrant_ssh('which gem')).to start_with("/usr/local/bin/gem")
       end
 
       it 'successfully installs bundler' do
-        expect(vagrant_ssh('which bundle')).to eq("/usr/local/bin/bundle\n")
+        expect(vagrant_ssh('which bundle')).to start_with("/usr/local/bin/bundle")
       end
     end
 
@@ -145,37 +145,41 @@ describe 'Ansible provisioning' do
 
     describe 'rletters.yml' do
       it 'checks out RLetters' do
-        expect(vagrant_ssh('sudo ls /opt/rletters/root/Gemfile')).to eq("/opt/rletters/root/Gemfile\n")
+        expect(vagrant_ssh('sudo ls /opt/rletters/root/Gemfile')).to start_with("/opt/rletters/root/Gemfile")
       end
 
       it 'installs the bundle in the state directory' do
-        expect(vagrant_ssh('sudo ls /opt/rletters/state/bundle')).to eq("ruby\n")
+        expect(vagrant_ssh('sudo ls /opt/rletters/state/bundle')).to start_with("ruby")
       end
 
       it 'creates the database.yml file pointing at localhost' do
         expect(vagrant_ssh('sudo cat /opt/rletters/root/config/database.yml')).to include("host: '127.0.0.1'")
       end
 
-      it 'gets the NLP pacakge' do
-        expect(vagrant_ssh('sudo ls /opt/rletters/root/vendor/nlp/stanford-corenlp.jar')).to eq("/opt/rletters/root/vendor/nlp/stanford-corenlp.jar\n")
+      it 'makes the NLP tool file' do
+        expect(vagrant_ssh('sudo ls /opt/rletters/root/vendor/nlp/nlp-tool')).to start_with("/opt/rletters/root/vendor/nlp/nlp-tool")
+      end
+
+      it 'installs working NLP tool' do
+        expect(vagrant_ssh('sudo sh -c "echo were | /opt/rletters/root/vendor/nlp/nlp-tool -l"')).to include("---\n- \"be\"\n")
       end
     end
 
     describe 'bluepill.yml' do
       it 'installs Bluepill globally' do
-        expect(vagrant_ssh('which bluepill')).to eq("/usr/local/bin/bluepill\n")
+        expect(vagrant_ssh('which bluepill')).to start_with("/usr/local/bin/bluepill")
       end
 
       it 'creates the Bluepill configuration' do
-        expect(vagrant_ssh('sudo ls /opt/bluepill/bluepill.rb')).to eq("/opt/bluepill/bluepill.rb\n")
+        expect(vagrant_ssh('sudo ls /opt/bluepill/bluepill.rb')).to start_with("/opt/bluepill/bluepill.rb")
       end
 
       it 'creates the resque-pool configuration' do
-        expect(vagrant_ssh('sudo ls /opt/bluepill/resque-pool.yml')).to eq("/opt/bluepill/resque-pool.yml\n")
+        expect(vagrant_ssh('sudo ls /opt/bluepill/resque-pool.yml')).to start_with("/opt/bluepill/resque-pool.yml")
       end
 
       it 'creates the Unicorn configuration' do
-        expect(vagrant_ssh('sudo ls /opt/bluepill/unicorn.rb')).to eq("/opt/bluepill/unicorn.rb\n")
+        expect(vagrant_ssh('sudo ls /opt/bluepill/unicorn.rb')).to start_with("/opt/bluepill/unicorn.rb")
       end
     end
 
@@ -217,11 +221,11 @@ describe 'Ansible provisioning' do
   describe 'redis role' do
     describe 'main.yml' do
       it 'installs Redis' do
-        expect(vagrant_ssh('which redis-server')).to eq("/usr/sbin/redis-server\n")
+        expect(vagrant_ssh('which redis-server')).to start_with("/usr/sbin/redis-server")
       end
 
       it 'starts Redis' do
-        expect(vagrant_ssh('redis-cli ping')).to eq("PONG\n")
+        expect(vagrant_ssh('redis-cli ping')).to start_with("PONG")
       end
 
       it 'does not make the Redis server publically accessible' do

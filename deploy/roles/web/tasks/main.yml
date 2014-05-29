@@ -4,3 +4,4 @@
 - include: rletters.yml
 - include: bluepill.yml
 - include: nginx.yml
+- include: nlp.yml

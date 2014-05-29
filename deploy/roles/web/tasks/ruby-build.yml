@@ -2,7 +2,7 @@
 # Build Ruby from source and install it in /usr/local.
 
 - name: Install Ruby build dependencies
-  action: yum name={{ item }} state=present
+  action: yum name={{ item }} state=latest
   with_items:
     - gcc
     - gcc-c++
@@ -15,6 +15,7 @@
     - sqlite-devel
     - postgresql93-devel
     - make
+    - patch
     - git
   tags: ruby
 

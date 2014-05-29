@@ -1,0 +1,42 @@
+---
+# Install Maven and build the RLetters nlp-tool
+
+- name: Download Maven
+  get_url: url={{ maven_url }} dest=/opt/downloads/{{ maven_filename }}.tar.gz
+  tags: maven
+
+- name: Extract Maven
+  command: chdir=/opt tar -xf /opt/downloads/{{ maven_filename }}.tar.gz -C /opt creates=/opt/{{ maven_filename }}/README.txt
+  tags: maven
+
+- name: Create symlink for Maven
+  file: src=/opt/{{ maven_filename }} path=/opt/maven state=link
+  tags: maven
+
+- name: Permit M2 for root in sudo environment
+  lineinfile: dest=/etc/sudoers state=present regexp="^Defaults\s+env_keep.+M2" line="Defaults env_keep += \"M2\""
+  tags: java
+
+- name: Install profile snippet to put Maven in the path
+  copy: src=maven.sh dest=/etc/profile.d/maven.sh
+  tags: maven
+
+- name: Create nlp-tool directory
+  file: path=/opt/nlp-tool state=directory
+  tags: nlp
+
+- name: Check out nlp-tool via git
+  git: repo=git://github.com/rletters/nlp-tool.git dest=/opt/nlp-tool
+  tags: nlp
+
+- name: Build nlp-tool
+  command: chdir=/opt/nlp-tool mvn install creates=/opt/nlp-tool/nlp-tool-0.1-jar-with-dependencies.jar
+  tags: nlp
+
+- name: Copy nlp-tool script
+  copy: src=nlp-tool.sh dest=/opt/rletters/root/vendor/nlp/nlp-tool mode=0755
+  tags: nlp
+
+- name: Set nlp-tool path
+  command: chdir=/opt/rletters/root bundle exec rake setting:set[nlp_tool_path,/opt/rletters/root/vendor/nlp/nlp-tool] RAILS_ENV=production
+  tags: nlp
