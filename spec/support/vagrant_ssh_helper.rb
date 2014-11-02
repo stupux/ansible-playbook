@@ -8,11 +8,11 @@ module VagrantSshHelper
   end
 
   def vagrant_check_port_open(port)
-    expect(is_port_open?('192.168.111.222', port)).to be_true
+    expect(is_port_open?('192.168.111.222', port)).to be true
   end
 
   def vagrant_check_port_closed(port)
-    expect(is_port_open?('192.168.111.222', port)).to be_false
+    expect(is_port_open?('192.168.111.222', port)).to be false
   end
 
   private

@@ -36,7 +36,7 @@ describe 'Ansible provisioning' do
 
       it 'creates the database password file' do
         file_path = './deploy/roles/db/files/db_192.168.111.222_pass'
-        expect(File.exist?(file_path)).to be_true
+        expect(File.exist?(file_path)).to be true
       end
 
       it 'creates the database and user' do
@@ -84,7 +84,7 @@ describe 'Ansible provisioning' do
 
       it 'creates the Tomcat password file' do
         file_path = './deploy/roles/solr/files/tomcat_192.168.111.222_pass'
-        expect(File.exist?(file_path)).to be_true
+        expect(File.exist?(file_path)).to be true
       end
 
       it 'configures the Tomcat administration GUI' do
