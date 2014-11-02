@@ -20,6 +20,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
   end
 
-  config.vm.synced_folder "downloads", "/opt/downloads", nfs: true
-  config.vm.synced_folder "yum-cache", "/var/cache/yum", nfs: true
+  config.vm.synced_folder "downloads", "/opt/downloads"
+  config.vm.synced_folder "yum-cache", "/var/cache/yum"
 end

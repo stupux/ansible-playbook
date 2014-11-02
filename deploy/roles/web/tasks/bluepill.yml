@@ -1,8 +1,20 @@
 ---
 # Install and configure Bluepill to monitor our daemons
 
-- name: Install Bluepill
-  gem: name=bluepill state=present user_install=no
+- name: Create Bluepill configuration directory
+  file: path=/opt/bluepill state=directory
+  tags: bluepill
+
+- name: Copy Bluepill Gemfile
+  copy: src=Gemfile.bluepill dest=/opt/bluepill/Gemfile.bluepill
+  tags: bluepill
+
+- name: Copy Bluepill Gemfile.lock
+  copy: src=Gemfile.bluepill.lock dest=/opt/bluepill/Gemfile.bluepill.lock
+  tags: bluepill
+
+- name: Install Bluepill bundle
+  command: chdir=/opt/bluepill/ bundle install --deployment
   tags: bluepill
 
 - name: Create Bluepill run directory
@@ -20,10 +32,6 @@
 
 - name: Install Bluepill init script
   copy: src=bluepill-initscript.sh dest=/etc/init.d/bluepill mode=0755
-  tags: bluepill
-
-- name: Create Bluepill configuration directory
-  file: path=/opt/bluepill state=directory
   tags: bluepill
 
 - name: Install Bluepill configuration
