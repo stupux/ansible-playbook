@@ -1,0 +1,38 @@
+---
+# Configure some default rules for iptables on all hosts.
+
+- name: Temporarily set iptables to fully permissive
+  command: /sbin/iptables -P INPUT ACCEPT
+  tags: iptables
+
+- name: Flush iptables
+  command: /sbin/iptables -F
+  tags: iptables
+
+- name: Permit loopback conections
+  command: /sbin/iptables -A INPUT -i lo -j ACCEPT
+  tags: iptables
+
+- name: Permit already open connections in
+  command: "/sbin/iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT"
+  tags: iptables
+
+- name: Permit SSH connections in
+  command: /sbin/iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+  tags: iptables
+
+- name: Deny all other incoming connections
+  command: /sbin/iptables -P INPUT DROP
+  tags: iptables
+
+- name: Deny all forwarding packets
+  command: /sbin/iptables -P FORWARD DROP
+  tags: iptables
+
+- name: Allow all outbound connections
+  command: /sbin/iptables -P OUTPUT ACCEPT
+  tags: iptables
+
+- name: Save basic iptables configuration
+  command: /sbin/service iptables save
+  tags: iptables

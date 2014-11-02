@@ -34,9 +34,12 @@
   tags: postgresql
 
 - name: Open iptables firewall for PostgreSQL
-  lineinfile: dest=/etc/sysconfig/iptables state=present regexp="5432"
-              insertafter="^:OUTPUT " line="-A INPUT -p tcp  --dport 5432 -j  ACCEPT"
-  notify: restart iptables
+  command: /sbin/iptables -A INPUT -p tcp --dport 5432 -j ACCEPT
+  when: groups['webservers']|count > 1 or groups['webservers'][0] != groups['dbserver'][0]
+  tags: postgresql
+
+- name: Save iptables configuration
+  command: /sbin/service iptables save
   when: groups['webservers']|count > 1 or groups['webservers'][0] != groups['dbserver'][0]
   tags: postgresql
 

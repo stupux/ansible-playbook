@@ -12,9 +12,11 @@
   tags: nginx
 
 - name: Open port 80 for nginx
-  lineinfile: dest=/etc/sysconfig/iptables state=present regexp="--dport 80 "
-              insertafter="^:OUTPUT " line="-A INPUT -p tcp  --dport 80 -j  ACCEPT"
-  notify: restart iptables
+  command: /sbin/iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+  tags: nginx
+
+- name: Save iptables rules
+  command: /sbin/service iptables save
   tags: nginx
 
 - name: Start nginx
