@@ -12,8 +12,8 @@
 
 # All our Ruby scripts are in /usr/local/bin; put that in the PATH
 export PATH=/usr/local/bin:$PATH
-BUNDLE_ROOT=/opt/bluepill/
-BUNDLE_BIN=/usr/local/bin/bundle
+BUNDLE_ROOT=/opt/bluepill
+BLUEPILL_BIN=/usr/local/bin/bluepill
 BLUEPILL_CONFIG=/opt/bluepill/bluepill.rb
 
 PIDFILE=/var/run/bluepill/pids/rletters.pid
@@ -23,7 +23,7 @@ RETVAL=0
 check() {
   # Make sure we're privileged and the binaries exist
   [ `id -u` = 0 ] || exit 4
-  test -x $BUNDLE_BIN || exit 5
+  test -x $BLUEPILL_BIN || exit 5
   test -e $BLUEPILL_CONFIG || exit 6
 }
 
@@ -32,8 +32,7 @@ start() {
   [ -e $PIDFILE ] && checkpid `cat $PIDFILE` && return 0
 
   echo -n $"Starting bluepill for rletters: "
-  cd $BUNDLE_ROOT
-  daemon $BUNDLE_BIN exec bluepill load $BLUEPILL_CONFIG
+  daemon $BLUEPILL_BIN load $BLUEPILL_CONFIG
   RETVAL=$?
   echo
 
@@ -45,8 +44,8 @@ stop() {
 
   echo -n $"Stopping bluepill for rletters: "
   cd $BUNDLE_ROOT
-  $BUNDLE_BIN exec bluepill rletters stop
-  $BUNDLE_BIN exec bluepill quit
+  $BLUEPILL_BIN rletters stop
+  $BLUEPILL_BIN quit
 
   RETVAL=$?
   echo
@@ -67,9 +66,9 @@ reload() {
   # we'll timeout the bluepill daemon, and all hell will break loose.  Do them
   # one at a time.
   cd $BUNDLE_ROOT
-  $BUNDLE_BIN exec bluepill rletters restart resque-pool
-  $BUNDLE_BIN exec bluepill rletters restart clockwork
-  $BUNDLE_BIN exec bluepill rletters restart unicorn
+  $BLUEPILL_BIN rletters restart resque-pool
+  $BLUEPILL_BIN rletters restart clockwork
+  $BLUEPILL_BIN rletters restart unicorn
 
   RETVAL=$?
   echo

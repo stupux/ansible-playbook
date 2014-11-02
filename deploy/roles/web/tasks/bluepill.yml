@@ -5,16 +5,12 @@
   file: path=/opt/bluepill state=directory
   tags: bluepill
 
-- name: Copy Bluepill Gemfile
-  copy: src=Gemfile.bluepill dest=/opt/bluepill/Gemfile.bluepill
+- name: Copy Bluepill gem file
+  copy: src=bluepill-0.0.68.gem dest=/opt/bluepill/bluepill-0.0.68.gem
   tags: bluepill
 
-- name: Copy Bluepill Gemfile.lock
-  copy: src=Gemfile.bluepill.lock dest=/opt/bluepill/Gemfile.bluepill.lock
-  tags: bluepill
-
-- name: Install Bluepill bundle
-  command: chdir=/opt/bluepill/ bundle install --deployment
+- name: Install Bluepill
+  gem: name=bluepill gem_source=/opt/bluepill/bluepill-0.0.68.gem state=present user_install=no
   tags: bluepill
 
 - name: Create Bluepill run directory
