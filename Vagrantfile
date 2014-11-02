@@ -5,18 +5,21 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "pl_centos64_rletters"
-  config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210-nocm.box"
+  config.vm.box = "pl_centos65_rletters"
+  config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-nocm.box"
 
   config.vm.network :private_network, ip: "192.168.111.222"
 
-  # Give tne VM lots of RAM and a pair of CPUs
+  # Give the VM lots of RAM and a pair of CPUs
   config.vm.provider :virtualbox do |vb|
     vb.customize ['modifyvm', :id, '--memory', '2048']
     vb.customize ['modifyvm', :id, '--cpus', '2']
     vb.customize ['modifyvm', :id, '--ioapic', 'on']
+
+    vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
   end
 
-  config.vm.synced_folder "downloads", "/opt/downloads"
-  config.vm.synced_folder "yum-cache", "/var/cache/yum"
+  config.vm.synced_folder "downloads", "/opt/downloads", nfs: true
+  config.vm.synced_folder "yum-cache", "/var/cache/yum", nfs: true
 end

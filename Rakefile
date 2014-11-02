@@ -3,7 +3,7 @@ require 'fileutils'
 
 desc 'Download the required Vagrant image (warning: takes a while)'
 task :download do
-  system('vagrant box add pl_centos64_rletters http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210-nocm.box')
+  system('vagrant box add pl_centos65_rletters http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-nocm.box')
 end
 
 desc 'Bring up a new vagrant VM'
