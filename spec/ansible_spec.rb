@@ -4,12 +4,12 @@ require 'net/http'
 
 describe 'Ansible provisioning' do
   before(:all) do
-    #system('rake up')
-    #system('cd deploy && ansible-playbook -c paramiko -v -i hosts.testing site.yml')
+    system('rake up')
+    system('cd deploy && ansible-playbook -c paramiko -v -i hosts.testing site.yml')
   end
 
   after(:all) do
-    #system('rake down')
+    system('rake down')
   end
 
   describe 'common role' do
