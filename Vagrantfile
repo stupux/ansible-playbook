@@ -8,7 +8,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "pl_centos65_rletters"
   config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-nocm.box"
 
-  config.vm.network :private_network, ip: "192.168.111.222"
+  # Override the SSH port to something not 22, forward HTTP
+  config.ssh.port = 2222
+  config.vm.network 'forwarded_port', guest: 80, host: 8888
 
   # Give the VM lots of RAM and a pair of CPUs
   config.vm.provider :virtualbox do |vb|

@@ -35,12 +35,12 @@ describe 'Ansible provisioning' do
       end
 
       it 'creates the database password file' do
-        file_path = './deploy/roles/db/files/db_192.168.111.222_pass'
+        file_path = './deploy/roles/db/files/db_127.0.0.1_pass'
         expect(File.exist?(file_path)).to be true
       end
 
       it 'creates the database and user' do
-        file_path = './deploy/roles/db/files/db_192.168.111.222_pass'
+        file_path = './deploy/roles/db/files/db_127.0.0.1_pass'
         db_password = IO.read(file_path)
         db_password.gsub!('\\', '\\\\')
         db_password.gsub!(':', '\:')
@@ -83,12 +83,12 @@ describe 'Ansible provisioning' do
       end
 
       it 'creates the Tomcat password file' do
-        file_path = './deploy/roles/solr/files/tomcat_192.168.111.222_pass'
+        file_path = './deploy/roles/solr/files/tomcat_127.0.0.1_pass'
         expect(File.exist?(file_path)).to be true
       end
 
       it 'configures the Tomcat administration GUI' do
-        file_path = './deploy/roles/solr/files/tomcat_192.168.111.222_pass'
+        file_path = './deploy/roles/solr/files/tomcat_127.0.0.1_pass'
         tomcat_password = IO.read(file_path).sub("\n", '')
 
         expect(vagrant_ssh("wget -q -O- http://rletters_tomcat:#{tomcat_password}@localhost:8080/manager/html")).to include('<title>/manager</title>')
@@ -193,8 +193,8 @@ describe 'Ansible provisioning' do
       end
 
       it 'serves the index page remotely' do
-        Net::HTTP.start('192.168.111.222', 80) do |http|
-          request = Net::HTTP::Get.new(URI('http://182.168.111.222/'))
+        Net::HTTP.start('127.0.0.1', 8888) do |http|
+          request = Net::HTTP::Get.new(URI('http://127.0.0.1:8888/'))
           response = http.request request
 
           expect(response.body).to include('<!DOCTYPE html>')
@@ -205,8 +205,8 @@ describe 'Ansible provisioning' do
       end
 
       it 'serves one of the application pages remotely' do
-        Net::HTTP.start('192.168.111.222', 80) do |http|
-          request = Net::HTTP::Get.new(URI('http://192.168.111.222/search/'))
+        Net::HTTP.start('127.0.0.1', 8888) do |http|
+          request = Net::HTTP::Get.new(URI('http://127.0.0.1:8888/search/'))
           response = http.request request
 
           expect(response.body).to include('<!DOCTYPE html>')
