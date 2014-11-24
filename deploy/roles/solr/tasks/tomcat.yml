@@ -16,6 +16,7 @@
 - name: Install Tomcat native library dependencies
   yum: name={{ item }} state=present
   with_items:
+    - gcc
     - apr
     - apr-devel
     - apr-util
