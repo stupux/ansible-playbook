@@ -3,9 +3,9 @@
 # want to change any of these from their defaults, but they are available if
 # you would like.
 
-ruby_url: http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.4.tar.bz2
-ruby_filename: ruby-2.1.4
-ruby_version: ruby 2.1.4p265
+ruby_url: http://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.0.tar.bz2
+ruby_filename: ruby-2.2.0
+ruby_version: ruby 2.2.0p0
 
 maven_url: http://mirrors.gigenet.com/apache/maven/maven-3/3.2.1/binaries/apache-maven-3.2.1-bin.tar.gz
 maven_filename: apache-maven-3.2.1
