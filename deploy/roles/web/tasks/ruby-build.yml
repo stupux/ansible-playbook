@@ -14,6 +14,7 @@
     - readline-devel
     - sqlite-devel
     - postgresql93-devel
+    - libffi-devel
     - make
     - patch
     - git

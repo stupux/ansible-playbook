@@ -50,7 +50,7 @@ describe 'Ansible provisioning' do
         vagrant_ssh('chmod 0600 ~/.pgpass')
 
         # Make sure the database exists and the user can connect
-        expect(vagrant_ssh('psql -h 127.0.0.1 -d rletters_production -U rletters_postgresql -c \\\\list')).to match(/ rletters_production /)
+        expect(vagrant_ssh('psql -h 127.0.0.1 -d rletters_production -U rletters_postgresql -c \\\\\\list')).to match(/ rletters_production /)
 
         # Clean up the authentication file
         vagrant_ssh('rm ~/.pgpass')
@@ -71,7 +71,7 @@ describe 'Ansible provisioning' do
       end
 
       it 'actually uses the Tomcat native library' do
-        expect(vagrant_ssh('grep "Loaded APR based" /opt/tomcat/logs/catalina.out')).to_not be_empty
+        expect(vagrant_ssh('grep \'Loaded APR based\' /opt/tomcat/logs/catalina.out')).to_not be_empty
       end
 
       it 'starts the Tomcat server' do
@@ -161,7 +161,7 @@ describe 'Ansible provisioning' do
       end
 
       it 'installs working NLP tool' do
-        expect(vagrant_ssh('sudo sh -c "echo were | /opt/rletters/root/vendor/nlp/nlp-tool -l"')).to include("---\n- \"be\"\n")
+        expect(vagrant_ssh('sudo sh -c \'echo were | /opt/rletters/root/vendor/nlp/nlp-tool -l\'')).to include("---\n- \"be\"\n")
       end
     end
 
