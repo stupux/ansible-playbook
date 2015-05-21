@@ -25,7 +25,7 @@
   tags: rletters
 
 - name: Check out RLetters via git
-  git: repo=git://github.com/cpence/rletters.git dest=/opt/rletters/root
+  git: repo=git://github.com/rletters/rletters.git dest=/opt/rletters/root force=yes
   tags: rletters
 
 - name: Create bundle directory
