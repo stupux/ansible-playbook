@@ -4,12 +4,12 @@ require 'net/http'
 
 describe 'Ansible provisioning' do
   before(:all) do
-    system('rake up')
+#    system('rake up')
     system('cd deploy && ansible-playbook -c paramiko -v -i hosts.testing site.yml')
   end
 
   after(:all) do
-    system('rake down')
+#    system('rake down')
   end
 
   describe 'common role' do
@@ -178,8 +178,8 @@ describe 'Ansible provisioning' do
         expect(vagrant_ssh('sudo ls /opt/bluepill/resque-pool.yml')).to start_with("/opt/bluepill/resque-pool.yml")
       end
 
-      it 'creates the Unicorn configuration' do
-        expect(vagrant_ssh('sudo ls /opt/bluepill/unicorn.rb')).to start_with("/opt/bluepill/unicorn.rb")
+      it 'creates the Puma configuration' do
+        expect(vagrant_ssh('sudo ls /opt/bluepill/puma.rb')).to start_with("/opt/bluepill/puma.rb")
       end
     end
 

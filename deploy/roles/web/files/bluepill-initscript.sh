@@ -68,7 +68,7 @@ reload() {
   cd $BUNDLE_ROOT
   $BLUEPILL_BIN rletters restart resque-pool
   $BLUEPILL_BIN rletters restart clockwork
-  $BLUEPILL_BIN rletters restart unicorn
+  $BLUEPILL_BIN rletters restart puma
 
   RETVAL=$?
   echo

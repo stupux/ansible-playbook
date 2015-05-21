@@ -21,9 +21,9 @@ http {
 
   keepalive_timeout 65;
 
-  # Path to Unicorn
-  upstream rletters_unicorn {
-    server unix:/opt/rletters/root/tmp/sockets/unicorn.sock;
+  # Path to Puma
+  upstream rletters_puma {
+    server unix:/opt/rletters/root/tmp/sockets/puma.sock;
   }
 
   server {
@@ -47,9 +47,9 @@ http {
       proxy_set_header Host $http_host;
       proxy_redirect off;
 
-      # Pass request to Unicorn
+      # Pass request to Puma
       if (!-f $request_filename) {
-        proxy_pass http://rletters_unicorn;
+        proxy_pass http://rletters_puma;
         break;
       }
     }
