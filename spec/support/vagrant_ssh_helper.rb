@@ -19,6 +19,6 @@ module VagrantSshHelper
   private
 
   def is_vagrant_port_open?(port)
-    vagrant_ssh("sudo iptables -nL") =~ /ACCEPT .*tcp dpt:#{port} /
+    vagrant_ssh("sudo iptables -nL") =~ /ACCEPT .*tcp dpt:#{port}\s*$/
   end
 end

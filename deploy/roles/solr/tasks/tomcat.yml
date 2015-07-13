@@ -74,10 +74,7 @@
   tags: tomcat
 
 - name: Start Tomcat
-  # For some reason, state=started will often report that the service is
-  # already running, even though it hasn't been started yet (since it was
-  # just created).  Use state=restarted as a workaround.
-  service: name=tomcat state=restarted enabled=yes
+  service: name=tomcat state=started enabled=yes
   tags: tomcat
 
 # If there's more than one web server, or if the Solr and web servers are

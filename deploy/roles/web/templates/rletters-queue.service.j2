@@ -1,0 +1,16 @@
+[Unit]
+Description=RLetters job worker for {{ item }}
+After=network.target
+
+[Service]
+Type=simple
+User=rletters_deploy
+Group=rletters_deploy
+
+WorkingDirectory=/opt/rletters/root
+ExecStart=/opt/rletters/root/bin/rake RAILS_ENV=production QUE_QUEUE={{ item }} QUE_WORKER_COUNT=1 que:work
+KillSignal=SIGQUIT
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

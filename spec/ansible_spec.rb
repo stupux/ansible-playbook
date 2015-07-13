@@ -4,18 +4,18 @@ require 'net/http'
 
 describe 'Ansible provisioning' do
   before(:all) do
-    #system('rake up')
+    system('rake up')
     system('cd deploy && ansible-playbook -c paramiko -v -i hosts.testing site.yml')
   end
 
   after(:all) do
-    #system('rake down')
+    system('rake down')
   end
 
   describe 'common role' do
     describe 'ntp.yml' do
       it 'starts the NTP service' do
-        expect(vagrant_ssh('/etc/init.d/ntpd status')).to match(/ntpd .* is running\.\.\./)
+        expect(vagrant_ssh('systemctl show --no-pager ntpd')).to match(/^ActiveState=active$/)
       end
 
       it 'does not make the NTP daemon publically accessible' do
@@ -165,17 +165,9 @@ describe 'Ansible provisioning' do
       end
     end
 
-    describe 'bluepill.yml' do
-      it 'installs Bluepill globally' do
-        expect(vagrant_ssh('which bluepill')).to start_with("/usr/local/bin/bluepill")
-      end
-
-      it 'creates the Bluepill configuration' do
-        expect(vagrant_ssh('sudo ls /opt/bluepill/bluepill.rb')).to start_with("/opt/bluepill/bluepill.rb")
-      end
-
+    describe 'services.yml' do
       it 'creates the Puma configuration' do
-        expect(vagrant_ssh('sudo ls /opt/bluepill/puma.rb')).to start_with("/opt/bluepill/puma.rb")
+        expect(vagrant_ssh('sudo ls /opt/rletters/state/puma.rb')).to start_with("/opt/rletters/state/puma.rb")
       end
     end
 

@@ -6,4 +6,4 @@
 
 - name: Create directory for download cache
   file: path=/opt/downloads state=directory
-  tags: main
+  tags: common-main

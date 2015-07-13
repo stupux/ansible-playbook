@@ -1,0 +1,35 @@
+---
+# Set up systemd service files to run Puma and workers
+
+- name: Create Puma configuration
+  copy: src=puma.rb dest=/opt/rletters/state/puma.rb
+  tags: services
+
+- name: Create Puma systemd service
+  copy: src=rletters-puma.service dest=/etc/systemd/system
+  tags: services
+
+- name: Create systemd queue services
+  template: src=rletters-queue.service.j2 dest=/etc/systemd/system/rletters-queue-{{ item }}.service
+  with_items:
+    - maintenance
+    - ui
+    - analysis
+  tags: services
+
+- name: Reload systemd services
+  command: systemctl daemon-reload
+  tags: services
+
+- name: Start systemd services
+  service: name={{ item }} state=started enabled=yes
+  with_items:
+    - rletters-puma
+    - rletters-queue-maintenance
+    - rletters-queue-ui
+    - rletters-queue-analysis
+  tags: services
+
+- name: Wait for systemd to bring up the Puma
+  script: puma-wait.sh
+  tags: services

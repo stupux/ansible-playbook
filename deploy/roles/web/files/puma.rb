@@ -2,8 +2,8 @@ directory '/opt/rletters/root'
 rackup 'config.ru'
 
 daemonize
-pidfile '/opt/bluepill/puma.pid'
-state_path '/opt/bluepill/puma.state'
+pidfile '/opt/rletters/state/puma.pid'
+state_path '/opt/rletters/state/puma.state'
 
 stdout_redirect '/opt/rletters/root/log/puma.stdout.log', '/opt/rletters/root/log/puma.stderr.log'
 

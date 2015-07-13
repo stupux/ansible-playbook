@@ -2,6 +2,6 @@
 - include: ruby.yml
 - include: user.yml
 - include: rletters.yml
-- include: bluepill.yml
+- include: services.yml
 - include: nginx.yml
 - include: nlp.yml

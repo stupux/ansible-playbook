@@ -13,7 +13,7 @@
     - readline
     - readline-devel
     - sqlite-devel
-    - postgresql93-devel
+    - postgresql94-devel
     - libffi-devel
     - make
     - patch

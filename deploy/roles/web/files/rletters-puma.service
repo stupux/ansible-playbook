@@ -1,0 +1,19 @@
+[Unit]
+Description=Puma server for RLetters
+After=network.target
+
+[Service]
+Type=simple
+User=rletters_deploy
+Group=rletters_deploy
+
+WorkingDirectory=/opt/rletters/root
+PIDFile=/opt/rletters/state/puma.pid
+ExecStart=/opt/rletters/root/bin/puma -C /opt/rletters/state/puma.rb
+ExecReload=/bin/kill -USR2 $MAINPID
+KillMode=mixed
+KillSignal=SIGINT
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

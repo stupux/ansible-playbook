@@ -1,6 +1,18 @@
 ---
 # Configure some default rules for iptables on all hosts.
 
+- name: Stop firewalld if it's running
+  service: name=firewalld enabled=no state=stopped
+  tags: iptables
+
+- name: Install basic iptables services
+  yum: name=iptables-services state=present
+  tags: iptables
+
+- name: Enable iptables service
+  service: name=iptables enabled=yes state=running
+  tags: iptables
+
 - name: Temporarily set iptables to fully permissive
   command: /sbin/iptables -P INPUT ACCEPT
   tags: iptables
