@@ -66,8 +66,9 @@ reload() {
   # we'll timeout the bluepill daemon, and all hell will break loose.  Do them
   # one at a time.
   cd $BUNDLE_ROOT
-  $BLUEPILL_BIN rletters restart resque-pool
-  $BLUEPILL_BIN rletters restart clockwork
+  $BLUEPILL_BIN rletters restart que-queue-ui
+  $BLUEPILL_BIN rletters restart que-queue-maintenance
+  $BLUEPILL_BIN rletters restart que-queue-analysis
   $BLUEPILL_BIN rletters restart puma
 
   RETVAL=$?

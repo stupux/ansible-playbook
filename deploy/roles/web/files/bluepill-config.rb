@@ -20,31 +20,22 @@ Bluepill.application('rletters') do |app|
     proc.restart_grace_time = 180
   end
 
-  app.process('resque-scheduler') do |proc|
-    proc.start_command = 'bin/rake RAILS_ENV=production resque:scheduler'
-    proc.stop_command = 'kill -QUIT {{PID}}'
-    proc.stdout = proc.stderr = '/opt/rletters/root/log/resque-scheduler.log'
+  # FIXME: Soon, ActiveJob will stop using named queues to manage Que jobs, and
+  # this will just collapse to a single queue. We will then need to use
+  # priorities and multiple workers, or something.
+  %w(ui maintenance analysis).each do |queue|
+    app.process("que-queue-#{queue}") do |proc|
+      proc.start_command = "bin/rake RAILS_ENV=production QUE_QUEUE=#{queue} QUE_WORKER_COUNT=1 que:work"
+      proc.stdout = proc.stderr = "/opt/rletters/root/log/que-queue-#{queue}.log"
 
-    proc.pid_file = '/opt/bluepill/resque-scheduler.pid'
-    proc.daemonize = true
-    proc.working_dir = '/opt/rletters/root'
+      proc.pid_file = "/opt/bluepill/que-queue-#{queue}.pid"
+      proc.dameonize = true
+      proc.working_dir = '/opt/rletters/root'
 
-    proc.start_grace_time = 60
-    proc.stop_grace_time = 60
-    proc.restart_grace_time = 60
-  end
-
-  app.process('resque-pool') do |proc|
-    proc.start_command = 'bin/resque-pool --config /opt/bluepill/resque-pool.yml --daemon --environment production --pidfile /opt/bluepill/resque-pool.pid'
-    proc.stop_command = 'kill -QUIT {{PID}}'
-    proc.restart_command = 'kill -HUP {{PID}}'
-
-    proc.pid_file = '/opt/bluepill/resque-pool.pid'
-    proc.working_dir = '/opt/rletters/root'
-
-    proc.start_grace_time = 60
-    proc.stop_grace_time = 60
-    proc.restart_grace_time = 180
+      proc.start_grace_time = 60
+      proc.stop_grace_time = 60
+      proc.restart_grace_time = 60
+    end
   end
 
 end

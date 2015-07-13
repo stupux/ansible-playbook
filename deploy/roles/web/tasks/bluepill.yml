@@ -30,10 +30,6 @@
   copy: src=bluepill-config.rb dest=/opt/bluepill/bluepill.rb
   tags: bluepill
 
-- name: Create resque-pool configuration
-  template: src=resque-pool.yml.j2 dest=/opt/bluepill/resque-pool.yml
-  tags: bluepill
-
 - name: Create Puma configuration
   copy: src=puma.rb dest=/opt/bluepill/puma.rb
   tags: bluepill

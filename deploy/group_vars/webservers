@@ -9,10 +9,3 @@ ruby_version: ruby 2.2.0p0
 
 maven_url: http://mirrors.gigenet.com/apache/maven/maven-3/3.2.1/binaries/apache-maven-3.2.1-bin.tar.gz
 maven_filename: apache-maven-3.2.1
-
-# Default configuration for every web instance is to run one worker on each
-# of the Resque queues.  Note that you *must* run one worker on each queue
-# somewhere, or the application will not work.
-maintenance_workers: 1
-ui_workers: 1
-analysis_workers: 1

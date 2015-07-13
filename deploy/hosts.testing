@@ -9,6 +9,3 @@
 
 [solrserver]
 127.0.0.1
-
-[redisserver]
-127.0.0.1

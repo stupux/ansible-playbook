@@ -4,12 +4,12 @@ require 'net/http'
 
 describe 'Ansible provisioning' do
   before(:all) do
-    system('rake up')
+    #system('rake up')
     system('cd deploy && ansible-playbook -c paramiko -v -i hosts.testing site.yml')
   end
 
   after(:all) do
-    system('rake down')
+    #system('rake down')
   end
 
   describe 'common role' do
@@ -174,10 +174,6 @@ describe 'Ansible provisioning' do
         expect(vagrant_ssh('sudo ls /opt/bluepill/bluepill.rb')).to start_with("/opt/bluepill/bluepill.rb")
       end
 
-      it 'creates the resque-pool configuration' do
-        expect(vagrant_ssh('sudo ls /opt/bluepill/resque-pool.yml')).to start_with("/opt/bluepill/resque-pool.yml")
-      end
-
       it 'creates the Puma configuration' do
         expect(vagrant_ssh('sudo ls /opt/bluepill/puma.rb')).to start_with("/opt/bluepill/puma.rb")
       end
@@ -214,22 +210,6 @@ describe 'Ansible provisioning' do
             response.value
           }.to_not raise_error
         end
-      end
-    end
-  end
-
-  describe 'redis role' do
-    describe 'main.yml' do
-      it 'installs Redis' do
-        expect(vagrant_ssh('which redis-server')).to start_with("/usr/sbin/redis-server")
-      end
-
-      it 'starts Redis' do
-        expect(vagrant_ssh('redis-cli ping')).to start_with("PONG")
-      end
-
-      it 'does not make the Redis server publically accessible' do
-        vagrant_check_port_closed(6379)
       end
     end
   end
