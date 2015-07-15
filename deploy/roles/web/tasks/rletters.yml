@@ -37,7 +37,7 @@
   tags: rletters
 
 - name: Install bundle to vendor/bundle
-  command: chdir=/opt/rletters/root/ bundle install --binstubs --deployment --without development test
+  command: chdir=/opt/rletters/root/ bundle install --deployment --without development:test --path vendor/bundle
   tags: rletters
 
 - name: Create database.yml file
