@@ -8,7 +8,8 @@ User=rletters_deploy
 Group=rletters_deploy
 
 WorkingDirectory=/opt/rletters/root
-ExecStart=/opt/rletters/root/bin/rake RAILS_ENV=production QUE_QUEUE={{ item }} QUE_WORKER_COUNT=1 que:work
+Environment=RAILS_ENV=production
+ExecStart=/opt/rletters/root/bin/bundle exec que --worker-count 1 --queue-name {{ item }} ./config/environment.rb
 KillSignal=SIGQUIT
 Restart=on-abort
 
