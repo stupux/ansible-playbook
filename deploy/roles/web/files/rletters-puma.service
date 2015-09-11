@@ -9,7 +9,7 @@ Group=rletters_deploy
 
 WorkingDirectory=/opt/rletters/root
 PIDFile=/opt/rletters/state/puma.pid
-ExecStart=/opt/rletters/root/bin/puma -C /opt/rletters/state/puma.rb
+ExecStart=/opt/rletters/root/bin/bundle exec puma -C /opt/rletters/state/puma.rb
 ExecReload=/bin/kill -USR2 $MAINPID
 KillMode=mixed
 KillSignal=SIGINT
