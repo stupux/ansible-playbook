@@ -5,8 +5,6 @@ daemonize
 pidfile '/opt/rletters/state/puma.pid'
 state_path '/opt/rletters/state/puma.state'
 
-stdout_redirect '/opt/rletters/root/log/puma.stdout.log', '/opt/rletters/root/log/puma.stderr.log'
-
 bind 'unix:///opt/rletters/root/tmp/sockets/puma.sock'
 
 workers 2

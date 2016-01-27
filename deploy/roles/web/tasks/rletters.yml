@@ -4,6 +4,7 @@
 - name: Install code dependencies
   yum: name={{ item }} state=present
   with_items:
+    - npm
     - nodejs
     - git
   tags: rletters
@@ -40,12 +41,42 @@
   command: chdir=/opt/rletters/root/ bundle install --deployment --without development:test --path vendor/bundle
   tags: rletters
 
-- name: Create database.yml file
-  template: src=database.yml.j2 dest=/opt/rletters/state/database.yml
+- name: Copy example environment file
+  copy: src=/opt/rletters/root/.env.example dest=/opt/rletters/root/.env remote_src=yes force=no
   tags: rletters
 
-- name: Symlink database.yml file
-  file: src=/opt/rletters/state/database.yml path=/opt/rletters/root/config/database.yml state=link
+- name: See if secret keys are present
+  shell: "grep '^# SECRET_TOKEN=asdf$' /opt/rletters/root/.env"
+  register: env_secret_key
+  tags: rletters
+
+- name: Generate secret keys
+  command: chdir=/opt/rletters/root/ bundle exec rake secrets:regen
+  when: "env_secret_key.stdout.find('# SECRET_TOKEN=') != -1"
+  tags: rletters
+
+- name: Silence the verbose logs for production
+  lineinfile: dest=/opt/rletters/root/.env regexp="^VERBOSE_LOGS=" line="VERBOSE_LOGS=false"
+  tags: rletters
+
+- name: Update database URL in environment file (local)
+  lineinfile: dest=/opt/rletters/root/.env regexp="^DATABASE_URL=(.*)$" line="DATABASE_URL=\"postgres://rletters_postgresql:{{ db_pass }}@127.0.0.1/rletters_production\""
+  when: inventory_hostname == groups['dbserver'][0]
+  tags: rletters
+
+- name: Update database URL in environment file (external)
+  lineinfile: dest=/opt/rletters/root/.env regexp="^DATABASE_URL=(.*)$" line="DATABASE_URL=\"postgres://rletters_postgresql:{{ db_pass }}@{{ hostvars[groups['dbserver'][0]]['ansible_eth0']['ipv4']['address'] }}/rletters_production\""
+  when: inventory_hostname != groups['dbserver'][0]
+  tags: rletters
+
+- name: Update Solr URL in environment file (local)
+  lineinfile: dest=/opt/rletters/root/.env regexp="^SOLR_URL=(.*)$" line="SOLR_URL=\"http://localhost:8080/solr/\""
+  when: inventory_hostname == groups['solrserver'][0]
+  tags: rletters
+
+- name: Update Solr URL in environment file (external)
+  lineinfile: dest=/opt/rletters/root/.env regexp="^SOLR_URL=(.*)$" line="SOLR_URL=\"http://{{ hostvars[groups['solrserver'][0]]['ansible_eth0']['ipv4']['address'] }}:8080/solr/\""
+  when: inventory_hostname != groups['solrserver'][0]
   tags: rletters
 
 - name: Create the sockets directory
@@ -66,26 +97,16 @@
   shell: chdir=/opt/rletters/root/ creates=/opt/rletters/state/database_seeded bundle exec rake db:seed RAILS_ENV=production && touch /opt/rletters/state/database_seeded
   tags: rletters_seed
 
+- name: Install the NPM packages
+  shell: chdir=/opt/rletters/root/ bundle exec rake npm:install
+  tags: rletters
+
 - name: Precompile the assets
   shell: chdir=/opt/rletters/root/ bundle exec rake assets:precompile RAILS_ENV=production
   tags: rletters
 
 - name: Set the ownership for the RLetters directory
   file: path=/opt/rletters owner=rletters_deploy group=rletters_deploy state=directory recurse=yes
-  tags: rletters
-
-- name: Set the setting to point RLetters at the local Solr server
-  command: chdir=/opt/rletters/root bundle exec rake setting:set[solr_server_url,http://localhost:8080/solr/] RAILS_ENV=production
-  when: inventory_hostname == groups['solrserver'][0]
-  tags: rletters
-
-- name: Set the setting to point RLetters at the external Solr server
-  command: chdir=/opt/rletters/root bundle exec rake setting:set[solr_server_url,{{ hostvars[groups['solrserver'][0]]['ansible_eth0']['ipv4']['address'] }}] RAILS_ENV=production
-  when: inventory_hostname != groups['solrserver'][0]
-  tags: rletters
-
-- name: Enable Rails log rotation
-  copy: src=rletters-logrotate dest=/etc/logrotate.d/rletters
   tags: rletters
 
 - name: Activate maintenance tasks

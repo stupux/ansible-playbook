@@ -114,7 +114,7 @@ describe 'Ansible provisioning' do
 
       # We can't do any further tests without there being some documents, which
       # we can't guarantee, so this will have to do.  (We can't, e.g., check
-      # that we're operting on the right schema.)
+      # that we're operating on the right schema.)
     end
   end
 
@@ -152,8 +152,19 @@ describe 'Ansible provisioning' do
         expect(vagrant_ssh('sudo ls /opt/rletters/state/bundle')).to start_with("ruby")
       end
 
-      it 'creates the database.yml file pointing at localhost' do
-        expect(vagrant_ssh('sudo cat /opt/rletters/root/config/database.yml')).to include("host: '127.0.0.1'")
+      it 'creates the environment file and points it at the database' do
+        file_path = './deploy/roles/db/files/db_127.0.0.1_pass'
+        db_password = IO.read(file_path).sub("\n", '')
+
+        expect(vagrant_ssh('sudo cat /opt/rletters/root/.env')).to include("DATABASE_URL=\"postgres://rletters_postgresql:#{db_password}@127.0.0.1/rletters_production\"")
+      end
+
+      it 'disables verbose logs' do
+        expect(vagrant_ssh('sudo cat /opt/rletters/root/.env')).to include('VERBOSE_LOGS=false')
+      end
+
+      it 'sets the secure keys' do
+        expect(vagrant_ssh('sudo cat /opt/rletters/root/.env')).not_to include('# SECRET_TOKEN=')
       end
 
       it 'makes the NLP tool file' do
@@ -162,6 +173,10 @@ describe 'Ansible provisioning' do
 
       it 'installs working NLP tool' do
         expect(vagrant_ssh('sudo sh -c \'echo were | /opt/rletters/root/vendor/nlp/nlp-tool -l\'')).to include("---\n- \"be\"\n")
+      end
+
+      it 'sets the NLP tool path' do
+        expect(vagrant_ssh('sudo cat /opt/rletters/root/.env')).to include('NLP_TOOL_PATH=/opt/rletters/root/vendor/nlp/nlp-tool')
       end
     end
 

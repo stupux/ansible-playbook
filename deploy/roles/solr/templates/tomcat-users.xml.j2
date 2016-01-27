@@ -19,5 +19,5 @@
   limitations under the License.
 -->
 <tomcat-users>
-  <user username="rletters_tomcat" password="{{ lookup('password', 'roles/solr/files/tomcat_' + inventory_hostname + '_pass') }}" roles="manager-gui" />
+  <user username="rletters_tomcat" password="{{ tomcat_pass }}" roles="manager-gui" />
 </tomcat-users>

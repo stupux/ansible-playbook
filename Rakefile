@@ -1,11 +1,6 @@
 #!/usr/bin/env rake
 require 'fileutils'
 
-desc 'Download the required Vagrant image (warning: takes a while)'
-task :download do
-  system('vagrant box add pl_centos7_rletters https://github.com/holms/vagrant-centos7-box/releases/download/7.1.1503.001/CentOS-7.1.1503-x86_64-netboot.box')
-end
-
 desc 'Bring up a new vagrant VM'
 task :up do
   system('vagrant up')
@@ -17,7 +12,7 @@ task :down do
   system('vagrant destroy -f')
 
   # Remove all the password files
-  FileUtils.rm_f File.join('deploy', 'roles', 'db', 'files', 'db_192.168.111.222_pass')
-  FileUtils.rm_f File.join('deploy', 'roles', 'solr', 'files', 'tomcat_192.168.111.222_pass')
-  FileUtils.rm_f File.join('deploy', 'roles', 'web', 'files', 'deploy_192.168.111.222_pass')
+  FileUtils.rm_f File.join('.', 'deploy', 'roles', 'db', 'files', 'db_127.0.0.1_pass')
+  FileUtils.rm_f File.join('.', 'deploy', 'roles', 'solr', 'files', 'tomcat_127.0.0.1_pass')
+  FileUtils.rm_f File.join('.', 'deploy', 'roles', 'web', 'files', 'deploy_127.0.0.1_pass')
 end

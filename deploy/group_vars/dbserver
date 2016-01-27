@@ -1,0 +1,6 @@
+---
+# Variables applicable to the DB server only.  In all likelihood, you will not
+# want to change any of these from their defaults, but they are available if
+# you would like.
+
+db_pass: "{{ lookup('password', 'roles/db/files/db_' + groups['dbserver'][0] + '_pass length=30 chars=ascii_letters,digits') }}"

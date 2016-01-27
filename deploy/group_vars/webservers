@@ -3,9 +3,14 @@
 # want to change any of these from their defaults, but they are available if
 # you would like.
 
-ruby_url: http://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.0.tar.bz2
-ruby_filename: ruby-2.2.0
-ruby_version: ruby 2.2.0p0
+ruby_url: https://cache.ruby-lang.org/pub/ruby/2.3/ruby-2.3.0.tar.gz
+ruby_filename: ruby-2.3.0
+ruby_version: ruby 2.3.0p0
 
 maven_url: http://mirrors.gigenet.com/apache/maven/maven-3/3.2.1/binaries/apache-maven-3.2.1-bin.tar.gz
 maven_filename: apache-maven-3.2.1
+
+# FIXME: I can't figure out from the docs whether this will be evaluated
+# independently for every web host, such that it'll work right in cluster
+# setups.
+deploy_pass: "{{ lookup('password', 'roles/web/files/deploy_' + inventory_hostname + '_pass') }}"

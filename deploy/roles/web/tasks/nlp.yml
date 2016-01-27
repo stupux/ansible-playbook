@@ -38,5 +38,5 @@
   tags: nlp
 
 - name: Set nlp-tool path
-  command: chdir=/opt/rletters/root bundle exec rake setting:set[nlp_tool_path,/opt/rletters/root/vendor/nlp/nlp-tool] RAILS_ENV=production
+  lineinfile: dest=/opt/rletters/root/.env regexp="NLP_TOOL_PATH=" line="NLP_TOOL_PATH=/opt/rletters/root/vendor/nlp/nlp-tool"
   tags: nlp

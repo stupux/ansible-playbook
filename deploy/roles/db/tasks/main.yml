@@ -44,21 +44,20 @@
   tags: postgresql
 
 - name: Create the RLetters PostgreSQL database
-  sudo_user: postgres
-  sudo: yes
+  become: yes
+  become_user: postgres
   postgresql_db: db=rletters_production
   tags: postgresql
 
 - name: Create a user with access to the PostgreSQL database
-  sudo_user: postgres
-  sudo: yes
-  postgresql_user: db=rletters_production user=rletters_postgresql priv=ALL password={{ item }}
-  with_password: db_{{ inventory_hostname }}_pass length=30
+  become: yes
+  become_user: postgres
+  postgresql_user: db=rletters_production user=rletters_postgresql priv=ALL password={{ db_pass }}
   tags: postgresql
 
 - name: Tighten privileges on PostgreSQL user
-  sudo_user: postgres
-  sudo: yes
+  become: yes
+  become_user: postgres
   postgresql_user: db=rletters_production user=rletters_postgresql role_attr_flags=NOSUPERUSER,NOCREATEDB
   tags: postgresql
 
