@@ -73,6 +73,10 @@
   wait_for: port=8080
   tags: solr
 
+- name: Install wget
+  package: name=wget state=present
+  tags: packages
+
 - name: Wait for Tomcat to serve a page
   shell: wget -q -O- http://localhost:8080
   tags: solr

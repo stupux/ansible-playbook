@@ -1,0 +1,17 @@
+---
+# Configure basic repos and packages for later
+- name: Install SELinux support (CentOS/RHEL)
+  package: name=libselinux-python state=present
+  tags: yumrepos
+
+- name: Enable the EPEL repository (CentOS/RHEL)
+  yum: name=https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm state=present
+  tags: yumrepos
+
+- name: Enable the PostgreSQL repository (CentOS/RHEL)
+  yum: name=http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-{{ 'centos' if is_centos else 'redhat' }}94-9.4-2.noarch.rpm state=present
+  tags: yumrepos
+
+- name: Enable the Nginx repository (CentOS/RHEL)
+  yumrepo: name='nginx repo' baseurl=http://nginx.org/packages/{{ 'centos' if is_centos else 'rhel' }}/7/$basearch/ gpgcheck=no
+  tags: yumrepos

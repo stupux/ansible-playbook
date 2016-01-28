@@ -10,6 +10,8 @@ This repository contains a collection of Ansible playbooks for deploying [RLette
 
 For information about how to use these playbooks, see the [Installation and Deployment page on the RLetters wiki.](https://github.com/cpence/rletters/wiki/Installation-and-Deployment)
 
+**FIXME:** When Ansible 2.1 is released, require it and remove the local copy of the yumrepo module in `library`.
+
 Copyright
 ---------
 

@@ -6,7 +6,7 @@
   tags: iptables
 
 - name: Install basic iptables services
-  yum: name=iptables-services state=present
+  package: name={{ 'iptables-services' if is_rpm else 'iptables' }} state=present
   tags: iptables
 
 - name: Enable iptables service

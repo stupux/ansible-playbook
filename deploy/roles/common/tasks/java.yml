@@ -1,16 +1,25 @@
 ---
-# Install Java 1.7.  It's needed for both Tomcat/Solr and the web hosts, so
+# Install Java 1.8.  It's needed for both Tomcat/Solr and the web hosts, so
 # just get it working everywhere.
 
-- name: Install Java 1.7
-  yum: name={{ item }} state=present
+- name: Install Java 1.8 (RHEL/CentOS)
+  package: name={{ item }} state=present
   with_items:
-    - java-1.7.0-openjdk
-    - java-1.7.0-openjdk-devel
+    - java-1.8.0-openjdk
+    - java-1.8.0-openjdk-devel
+  when: is_rpm
+  tags: java
+
+- name: Install Java 1.8 (Arch)
+  package: name={{ item }} state=present
+  with_items:
+    - jre8-openjdk
+    - jdk8-openjdk
+  when: is_arch
   tags: java
 
 - name: Install profile snippet to set JAVA_HOME
-  copy: src=java.sh dest=/etc/profile.d/java.sh
+  template: src=java.sh.j2 dest=/etc/profile.d/java.sh
   tags: java
 
 - name: Permit JAVA_HOME for root in sudo environment

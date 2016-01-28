@@ -1,9 +1,18 @@
 ---
-- include: iptables.yml
-- include: yum.yml
-- include: ntp.yml
-- include: java.yml
+# Bootstrap Python2 using a raw command on Arch. Fail only if the command is
+# found, run, and fails
+- name: Ensure that Python2 is installed
+  raw: sudo pacman -S python2 python2-simplejson
+  register: command_result
+  failed_when: "'command not found' not in command_result.stdout and command_result.rc != 0"
+
+# Activate a bunch of extra repositories that we need on RPM-based distros
+- include: yumrepos.yml
+  when: is_rpm
 
 - name: Create directory for download cache
   file: path=/opt/downloads state=directory
-  tags: common-main
+
+- include: iptables.yml
+- include: ntp.yml
+- include: java.yml
