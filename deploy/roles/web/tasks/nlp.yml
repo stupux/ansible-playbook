@@ -6,7 +6,7 @@
   tags: maven
 
 - name: Extract Maven
-  command: chdir=/opt tar -xf /opt/downloads/{{ maven_filename }}.tar.gz -C /opt creates=/opt/{{ maven_filename }}/README.txt
+  unarchive: src=/opt/downloads/{{ maven_filename }}.tar.gz copy=no dest=/opt creates=/opt/{{ maven_filename }}/README.txt
   tags: maven
 
 - name: Create symlink for Maven

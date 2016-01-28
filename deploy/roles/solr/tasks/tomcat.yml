@@ -6,7 +6,7 @@
   tags: tomcat
 
 - name: Extract Tomcat archive
-  command: chdir=/opt tar xvf /opt/downloads/{{ tomcat_filename }}.tar.gz -C /opt creates=/opt/tomcat
+  unarchive: src=/opt/downloads/{{ tomcat_filename }}.tar.gz copy=no dest=/opt creates=/opt/tomcat
   tags: tomcat
 
 - name: Create symlink for Tomcat
@@ -24,7 +24,7 @@
   tags: tomcat
 
 - name: Extract Tomcat native library
-  command: tar -xf tomcat-native.tar.gz chdir=/opt/tomcat/bin creates=/opt/tomcat/bin/tomcat-native-{{ tomcat_native_version }}-src/README.txt
+  unarchive: src=/opt/tomcat/bin/tomcat-native.tar.gz copy=no dest=/opt/tomcat/bin creates=/opt/tomcat/bin/tomcat-native-{{ tomcat_native_version }}-src/README.txt
   tags: tomcat
 
 - name: Configure Tomcat native library

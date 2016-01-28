@@ -29,7 +29,7 @@
   tags: ruby
 
 - name: Extract Ruby
-  command: tar -xf /opt/downloads/{{ ruby_filename }}.tar.gz chdir=/tmp/ruby-build
+  unarchive: src=/opt/downloads/{{ ruby_filename }}.tar.gz copy=no dest=/tmp/ruby-build creates=/tmp/ruby-build/{{ ruby_filename }}/configure
   tags: ruby
 
 - name: Configure Ruby
