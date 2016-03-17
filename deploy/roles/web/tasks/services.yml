@@ -10,10 +10,7 @@
   tags: services
 
 - name: Create systemd queue services
-  template: src=rletters-queue.service.j2 dest=/etc/systemd/system/rletters-queue-{{ item }}.service
-  with_items:
-    - maintenance
-    - analysis
+  copy: src=rletters-que.service dest=/etc/systemd/system
   tags: services
 
 - name: Reload systemd services
@@ -24,10 +21,13 @@
   service: name={{ item }} state=started enabled=yes
   with_items:
     - rletters-puma
-    - rletters-queue-maintenance
-    - rletters-queue-analysis
+    - rletters-que
   tags: services
 
 - name: Wait for systemd to bring up the Puma
   script: puma-wait.sh
+  tags: services
+
+- name: Run task expiration task every six hours via cron
+  cron: name='Expire RLetters tasks' user='rletters_deploy' minute='0' hour='*/6' state='present' job='RAILS_ENV=production; cd /opt/rletters/root/ && bin/rails maintenance:expire_tasks >/dev/null 2>&1'
   tags: services

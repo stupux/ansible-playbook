@@ -184,6 +184,15 @@ describe 'Ansible provisioning' do
       it 'creates the Puma configuration' do
         expect(vagrant_ssh('sudo ls /opt/rletters/state/puma.rb')).to start_with("/opt/rletters/state/puma.rb")
       end
+
+      it 'starts the relevant services' do
+        expect(vagrant_ssh('systemctl show rletters-puma --property=ActiveState')).to include('ActiveState=active')
+        expect(vagrant_ssh('systemctl show rletters-que --property=ActiveState')).to include('ActiveState=active')
+      end
+
+      it 'sets the task expiration job in the deploy user crontab' do
+        expect(vagrant_ssh('sudo crontab -u rletters_deploy -l')).to include('bin/rails maintenance:expire_tasks')
+      end
     end
 
     describe 'nginx.yml' do

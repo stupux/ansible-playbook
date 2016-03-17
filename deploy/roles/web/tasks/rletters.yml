@@ -108,7 +108,3 @@
 - name: Set the ownership for the RLetters directory
   file: path=/opt/rletters owner=rletters_deploy group=rletters_deploy state=directory recurse=yes
   tags: rletters
-
-- name: Activate maintenance tasks
-  command: chdir=/opt/rletters/root bundle exec rake maintenance:start RAILS_ENV=production
-  tags: rletters

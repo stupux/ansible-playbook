@@ -1,5 +1,5 @@
 [Unit]
-Description=RLetters job worker for {{ item }}
+Description=RLetters job worker
 After=network.target
 
 [Service]
@@ -9,7 +9,7 @@ Group=rletters_deploy
 
 WorkingDirectory=/opt/rletters/root
 Environment=RAILS_ENV=production
-ExecStart=/opt/rletters/root/bin/bundle exec que --worker-count 1 --queue-name {{ item }} ./config/environment.rb
+ExecStart=/opt/rletters/root/bin/que --worker-count 1 ./config/environment.rb
 KillSignal=SIGQUIT
 Restart=on-abort
 
