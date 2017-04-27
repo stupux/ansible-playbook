@@ -29,5 +29,5 @@
   tags: services
 
 - name: Run task expiration task every six hours via cron
-  cron: name='Expire RLetters tasks' user='rletters_deploy' minute='0' hour='*/6' state='present' job='RAILS_ENV=production; cd /opt/rletters/root/ && bin/rails maintenance:expire_tasks >/dev/null 2>&1'
+  cron: name='Expire RLetters tasks' user='rletters_deploy' minute='0' hour='*/6' state='present' job='RAILS_ENV=production; cd /opt/rletters/root/ && bundle exec rails maintenance:expire_tasks >/dev/null 2>&1'
   tags: services
