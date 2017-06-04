@@ -13,5 +13,5 @@
   tags: yumrepos
 
 - name: Enable the Nginx repository (CentOS/RHEL)
-  yumrepo: name='nginx repo' baseurl=http://nginx.org/packages/{{ 'centos' if is_centos else 'rhel' }}/7/$basearch/ gpgcheck=no
+  yum_repository: name='nginx repo' baseurl=http://nginx.org/packages/{{ 'centos' if is_centos else 'rhel' }}/7/$basearch/ gpgcheck=no
   tags: yumrepos
