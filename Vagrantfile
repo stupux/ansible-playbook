@@ -10,6 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.ssh.insert_key = false
   config.vm.network 'forwarded_port', guest: 80, host: 8888
+  config.vm.network 'forwarded_port', guest: 8080, host: 9999
 
   # Give the VM lots of RAM and a pair of CPUs
   config.vm.provider :virtualbox do |vb|
