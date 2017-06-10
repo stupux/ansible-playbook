@@ -2,4 +2,4 @@
 # Handlers for common notifications
 
 - name: restart postgresql
-  service: name=postgresql-9.4 state=restarted
+  service: name=postgresql-9.6 state=restarted

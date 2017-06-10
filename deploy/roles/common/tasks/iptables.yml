@@ -10,7 +10,7 @@
   tags: iptables
 
 - name: Enable iptables service
-  service: name=iptables enabled=yes state=running
+  service: name=iptables enabled=yes state=started
   tags: iptables
 
 - name: Temporarily set iptables to fully permissive

@@ -29,5 +29,19 @@
   tags: ruby
 
 - name: Tell Bundler where the PostgreSQL installation is
-  command: bundle config build.pg --with-pg-config=/usr/pgsql-9.4/bin/pg_config
+  command: bundle config build.pg --with-pg-config=/usr/pgsql-9.6/bin/pg_config
+  tags: ruby
+
+
+- name: Install Ruby native gem dependences
+  yum: name={{ item }} state=latest
+  with_items:
+    - SDL
+    - SDL-devel
+    - SDL_ttf
+    - SDL_ttf-devel
+    - SDL2
+    - SDL2-devel
+    - SDL2_ttf
+    - SDL2_ttf-devel
   tags: ruby

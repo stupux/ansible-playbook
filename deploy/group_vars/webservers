@@ -3,12 +3,12 @@
 # want to change any of these from their defaults, but they are available if
 # you would like.
 
-ruby_url: https://cache.ruby-lang.org/pub/ruby/2.3/ruby-2.3.0.tar.gz
-ruby_filename: ruby-2.3.0
-ruby_version: ruby 2.3.0p0
+ruby_url: https://cache.ruby-lang.org/pub/ruby/2.4/ruby-2.4.1.tar.bz2
+ruby_filename: ruby-2.4.1
+ruby_version: ruby 2.4.1p111
 
-maven_url: http://mirrors.gigenet.com/apache/maven/maven-3/3.2.1/binaries/apache-maven-3.2.1-bin.tar.gz
-maven_filename: apache-maven-3.2.1
+maven_url: http://mirror.cc.columbia.edu/pub/software/apache/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz
+maven_filename: apache-maven-3.5.0
 
 # FIXME: I can't figure out from the docs whether this will be evaluated
 # independently for every web host, such that it'll work right in cluster

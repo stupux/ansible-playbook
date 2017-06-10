@@ -12,7 +12,7 @@ task :down do
   system('vagrant destroy -f')
 
   # Remove all the password files
-  FileUtils.rm_f File.join('.', 'deploy', 'roles', 'db', 'files', 'db_127.0.0.1_pass')
-  FileUtils.rm_f File.join('.', 'deploy', 'roles', 'solr', 'files', 'tomcat_127.0.0.1_pass')
-  FileUtils.rm_f File.join('.', 'deploy', 'roles', 'web', 'files', 'deploy_127.0.0.1_pass')
+  FileUtils.rm_f File.join('.', 'deploy', 'roles', 'db', 'files', 'db_default_pass')
+  FileUtils.rm_f File.join('.', 'deploy', 'roles', 'solr', 'files', 'tomcat_default_pass')
+  FileUtils.rm_f File.join('.', 'deploy', 'roles', 'web', 'files', 'deploy_default_pass')
 end

@@ -2,7 +2,7 @@
 # Build Ruby from source and install it in /usr/local.
 
 - name: Install Ruby build dependencies
-  action: yum name={{ item }} state=latest
+  yum: name={{ item }} state=latest
   with_items:
     - gcc
     - gcc-c++
@@ -13,7 +13,7 @@
     - readline
     - readline-devel
     - sqlite-devel
-    - postgresql94-devel
+    - postgresql96-devel
     - libffi-devel
     - make
     - patch

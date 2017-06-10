@@ -5,8 +5,8 @@
 
 ntpserver: 0.pool.ntp.org
 
-is_rhel: "{{ ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'RedHat' }}"
-is_centos: "{{ ansible_distribution == 'CentOS' }}"
-is_rpm: "{{ is_rhel or is_centos }}"
+is_rhel: "ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'RedHat'"
+is_centos: "ansible_distribution == 'CentOS'"
+is_rpm: "is_rhel or is_centos"
 
-is_arch: "{{ ansible_distribution == 'Archlinux' }}"
+is_arch: "ansible_distribution == 'Archlinux'"

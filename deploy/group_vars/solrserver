@@ -3,9 +3,9 @@
 # not want to change any of these from their defaults, but they are available
 # if you would like.
 
-tomcat_url: https://archive.apache.org/dist/tomcat/tomcat-7/v7.0.42/bin/apache-tomcat-7.0.42.tar.gz
-tomcat_filename: apache-tomcat-7.0.42
-tomcat_native_version: 1.1.27
+tomcat_url: http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.78/bin/apache-tomcat-7.0.78.tar.gz
+tomcat_filename: apache-tomcat-7.0.78
+tomcat_native_version: 1.2.12
 
 solr_url: https://archive.apache.org/dist/lucene/solr/4.10.4/solr-4.10.4.tgz
 solr_filename: solr-4.10.4

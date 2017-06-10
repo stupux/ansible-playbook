@@ -2,11 +2,15 @@
 # Copy and deploy the application code
 
 - name: Install code dependencies
-  yum: name={{ item }} state=present
+  yum: name={{ item }} state=latest
   with_items:
     - npm
     - nodejs
     - git
+  tags: rletters
+
+- name: Install yarn via NPM
+  npm: name=yarn global=yes state=latest
   tags: rletters
 
 - name: Create RLetters directory
@@ -48,10 +52,11 @@
 - name: See if secret keys are present
   shell: "grep '^# SECRET_TOKEN=asdf$' /opt/rletters/root/.env"
   register: env_secret_key
+  failed_when: "env_secret_key.rc == 2"
   tags: rletters
 
 - name: Generate secret keys
-  command: chdir=/opt/rletters/root/ bundle exec rake secrets:regen
+  command: chdir=/opt/rletters/root/ bundle exec rails secrets:regen
   when: "env_secret_key.stdout.find('# SECRET_TOKEN=') != -1"
   tags: rletters
 
@@ -86,7 +91,7 @@
 # This shouldn't cause damage, but we don't put the rletters tag on it, just to
 # be safe.
 - name: Migrate the database
-  shell: chdir=/opt/rletters/root/ bundle exec rake db:migrate RAILS_ENV=production
+  shell: chdir=/opt/rletters/root/ bundle exec rails db:migrate RAILS_ENV=production
   register: migrate_result
   changed_when: migrate_result.stdout != ''
   tags: rletters_migrate
@@ -94,15 +99,15 @@
 # This should only seed the database once, but just to be safe, we don't put
 # the rletters tag on this.
 - name: Seed the database
-  shell: chdir=/opt/rletters/root/ creates=/opt/rletters/state/database_seeded bundle exec rake db:seed RAILS_ENV=production && touch /opt/rletters/state/database_seeded
+  shell: chdir=/opt/rletters/root/ creates=/opt/rletters/state/database_seeded bundle exec rails db:seed RAILS_ENV=production && touch /opt/rletters/state/database_seeded
   tags: rletters_seed
 
-- name: Install the NPM packages
-  shell: chdir=/opt/rletters/root/ bundle exec rake npm:install
+- name: Install the Yarn packages
+  shell: chdir=/opt/rletters/root/ bundle exec rails yarn:install
   tags: rletters
 
 - name: Precompile the assets
-  shell: chdir=/opt/rletters/root/ bundle exec rake assets:precompile RAILS_ENV=production
+  shell: chdir=/opt/rletters/root/ bundle exec rails assets:precompile RAILS_ENV=production
   tags: rletters
 
 - name: Set the ownership for the RLetters directory

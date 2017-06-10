@@ -5,7 +5,6 @@ require 'net/http'
 describe 'Ansible provisioning' do
   before(:all) do
     system('rake up')
-    system('cd deploy && ansible-playbook -c paramiko -v -i hosts.testing site.yml')
   end
 
   after(:all) do
@@ -35,12 +34,12 @@ describe 'Ansible provisioning' do
       end
 
       it 'creates the database password file' do
-        file_path = './deploy/roles/db/files/db_127.0.0.1_pass'
+        file_path = './deploy/roles/db/files/db_default_pass'
         expect(File.exist?(file_path)).to be true
       end
 
       it 'creates the database and user' do
-        file_path = './deploy/roles/db/files/db_127.0.0.1_pass'
+        file_path = './deploy/roles/db/files/db_default_pass'
         db_password = IO.read(file_path)
         db_password.gsub!('\\', '\\\\')
         db_password.gsub!(':', '\:')
@@ -83,12 +82,12 @@ describe 'Ansible provisioning' do
       end
 
       it 'creates the Tomcat password file' do
-        file_path = './deploy/roles/solr/files/tomcat_127.0.0.1_pass'
+        file_path = './deploy/roles/solr/files/tomcat_default_pass'
         expect(File.exist?(file_path)).to be true
       end
 
       it 'configures the Tomcat administration GUI' do
-        file_path = './deploy/roles/solr/files/tomcat_127.0.0.1_pass'
+        file_path = './deploy/roles/solr/files/tomcat_default_pass'
         tomcat_password = IO.read(file_path).sub("\n", '')
 
         expect(vagrant_ssh("wget -q -O- http://rletters_tomcat:#{tomcat_password}@localhost:8080/manager/html")).to include('<title>/manager</title>')
@@ -153,7 +152,7 @@ describe 'Ansible provisioning' do
       end
 
       it 'creates the environment file and points it at the database' do
-        file_path = './deploy/roles/db/files/db_127.0.0.1_pass'
+        file_path = './deploy/roles/db/files/db_default_pass'
         db_password = IO.read(file_path).sub("\n", '')
 
         expect(vagrant_ssh('sudo cat /opt/rletters/root/.env')).to include("DATABASE_URL=\"postgres://rletters_postgresql:#{db_password}@127.0.0.1/rletters_production\"")
@@ -191,7 +190,7 @@ describe 'Ansible provisioning' do
       end
 
       it 'sets the task expiration job in the deploy user crontab' do
-        expect(vagrant_ssh('sudo crontab -u rletters_deploy -l')).to include('bin/rails maintenance:expire_tasks')
+        expect(vagrant_ssh('sudo crontab -u rletters_deploy -l')).to include('rails maintenance:expire_tasks')
       end
     end
 

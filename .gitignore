@@ -1,4 +1,6 @@
 .vagrant
+site.retry
+
 deploy/hosts
 deploy/roles/db/files/*_pass
 deploy/roles/solr/files/*_pass
@@ -7,3 +9,4 @@ downloads/*
 !downloads/.gitkeep
 yum-cache/*
 !yum-cache/.gitkeep
+

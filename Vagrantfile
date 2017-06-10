@@ -3,12 +3,12 @@
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
+Vagrant.require_version ">= 1.7.0"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "geerlingguy/centos7"
+  config.vm.box = "bento/centos-7.2"
 
-  # Override the SSH port to something not 22, forward HTTP
-  config.ssh.port = 2222
+  config.ssh.insert_key = false
   config.vm.network 'forwarded_port', guest: 80, host: 8888
 
   # Give the VM lots of RAM and a pair of CPUs
@@ -19,6 +19,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+  end
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.verbose = "v"
+    ansible.playbook = "deploy/site.yml"
+
+    ansible.groups = {
+      "webservers" => ["default"],
+      "dbserver" => ["default"],
+      "solrserver" => ["default"]
+    }
   end
 
   config.vm.synced_folder "downloads", "/opt/downloads"

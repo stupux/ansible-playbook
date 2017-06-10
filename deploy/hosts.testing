@@ -1,11 +1,8 @@
-# In testing, point all of the hosts at the virtual Vagrant machine
-127.0.0.1         ansible_ssh_user=vagrant ansible_ssh_pass=vagrant ansible_ssh_port=2222
-
 [webservers]
-127.0.0.1
+default
 
 [dbserver]
-127.0.0.1
+default
 
 [solrserver]
-127.0.0.1
+default

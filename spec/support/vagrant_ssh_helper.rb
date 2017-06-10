@@ -4,8 +4,14 @@ require 'timeout'
 
 module VagrantSshHelper
   def vagrant_ssh(str)
+    old_term = ENV['TERM']
+
     sleep 1
-    VagrantWrapper.new.get_output(['ssh', '-c', "\"#{str}\""]).gsub("\r\n", "\n")
+    ENV['TERM'] = 'xterm'
+    ret = VagrantWrapper.new.get_output(['ssh', '-c', "\"#{str}\""]).gsub("\r\n", "\n")
+
+    ENV['TERM'] = old_term
+    ret
   end
 
   def vagrant_check_port_open(port)
